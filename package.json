@@ -1,11 +1,13 @@
 {
 	"name": "@atomico/base-element",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "",
-	"source": "src/index.js",
+	"main": "dist/atomico-base-element.mjs",
 	"module": "dist/atomico-base-element.mjs",
 	"unpkg": "dist/atomico-base-element.umd.js",
+	"source": "src/index.js",
 	"author": "Matias Trujillo",
+	"license": "ISC",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/"

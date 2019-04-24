@@ -21,6 +21,7 @@ class BaseElement extends HTMLElement {
 	unmounted: Promise<void>;
 	/**
 	 * defines the observable attributes and properties of the component
+	 * @type {Object<string,(Number|String|Object|Boolean|Array)>}
 	 */
 	static attributes: Properties;
 	/**
@@ -36,11 +37,37 @@ class BaseElement extends HTMLElement {
 
 This class is used by [@atomico/element](https://github.com/atomicojs/core) to use [@atomico/core](https://github.com/atomicojs/element) as web-component.
 
-## Motivacion
+## Objective
 
 `base-element`, allows to create HTMLElements under other libraries, similar to what it does [Skatejs](https://github.com/skatejs/skatejs), but less code.
 
-## Example of implementation of lit-html
+## attributes
+
+the updates are dispatched to the `update` method, every time an ovserbable attribute mutates, these attributes are also defined as web-component properties.
+
+```js
+class CustomElement extends Element {
+	static attributes = {
+		fieldString: String, // [field-string]
+		fieldNumber: Number, // [field-number]
+		fieldBoolean: Boolean, // [field-boolean]
+		fieldObject: Object, // [field-object]
+		fieldArray: Array // [field-array]
+	};
+}
+```
+
+the attributes force the type of the variable, so if you define an attribute as `Object`, it will apply
+`JSON.parse` to a string type value, to read its type.
+
+```js
+// set property, remember that to apply this WC, you must already be registered
+myCustomElement.fieldArray = [];
+// set attribute, more benefit using setAttribute, since it allows a deferred loading of the WC
+myCustomElement.setAttribute("field-array", []);
+```
+
+## Example with lit-html
 
 ```jsx
 import { render, html } from "lit-html";
@@ -51,6 +78,7 @@ export default class extends Element {
 		super();
 		this.attachShadow({ mode: "open" });
 		this.props = {};
+		this.update();
 	}
 	async update(props) {
 		this.props = { ...this.props, ...props };
@@ -63,7 +91,7 @@ export default class extends Element {
 }
 ```
 
-## Example of preact implementation
+## Example with preact
 
 ```jsx
 import { render, h } from "preact";
@@ -76,6 +104,7 @@ export default class extends Element {
 		this.props = {};
 		this.render = this.render.bind(this);
 		this.unmounted.then(() => render("", this.shadowRoot));
+		this.update();
 	}
 	async update(props) {
 		this.props = { ...this.props, ...props };
@@ -84,6 +113,32 @@ export default class extends Element {
 		await this.mounted;
 		this.prevent = false;
 		render(h(this.render, this.props), this.shadowRoot);
+	}
+}
+```
+
+## Example with innerHTML
+
+```js
+import Element from "@atomico/base-element";
+
+export default class extends Element {
+	contructor() {
+		super();
+		this.attachShadow({ mode: "open" });
+		this.props = {};
+		this.update();
+	}
+	async update(props) {
+		this.props = { ...this.props, ...props };
+		if (this.prevent) return;
+		this.prevent = true;
+		await this.mounted;
+		this.prevent = false;
+		let nextHTML = this.render(this.props);
+		if (nextHTML !== this.shadowRoot.innerHTML) {
+			this.shadowRoot.innerHTML = nextHTML;
+		}
 	}
 }
 ```
