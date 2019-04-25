@@ -1,7 +1,7 @@
 import Element from "../src/index";
 
 class CustomElement extends Element {
-	static attributes = {
+	static observables = {
 		fieldString: String,
 		fieldNumber: Number,
 		fieldBoolean: Boolean,

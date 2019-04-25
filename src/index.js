@@ -28,8 +28,8 @@ export default class Element extends HTMLElement {
 		this.setProperty(name, value);
 	}
 	static get observedAttributes() {
-		let attributes = this.attributes || {},
-			keys = [],
+		let observables = this.observables || {},
+			attributes = [],
 			/**
 			 * @param {string} - add the setter and getter to the constructor prototype
 			 */
@@ -43,12 +43,12 @@ export default class Element extends HTMLElement {
 					}
 				});
 			};
-		for (let key in attributes) {
+		for (let key in observables) {
 			let attr = key.replace(/([A-Z])/g, "-$1").toLowerCase();
-			keys.push(attr);
+			attributes.push(attr);
 			if (!(name in this.prototype)) proxy(key);
 		}
-		return keys;
+		return attributes;
 	}
 	/**
 	 * validate to `value`, and then deliver it to the` update` method.
@@ -57,9 +57,9 @@ export default class Element extends HTMLElement {
 	 */
 	setProperty(name, value) {
 		name = name.replace(/-(\w)/g, (all, letter) => letter.toUpperCase());
-		let { attributes } = this.constructor,
+		let { observables } = this.constructor,
 			error,
-			type = attributes[name];
+			type = observables[name];
 		try {
 			if (typeof value == "string") {
 				switch (type) {

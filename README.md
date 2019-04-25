@@ -20,10 +20,9 @@ class BaseElement extends HTMLElement {
 	 */
 	unmounted: Promise<void>;
 	/**
-	 * defines the observable attributes and properties of the component
-	 * @type {Object<string,(Number|String|Object|Boolean|Array)>}
+	 * defines the observables as property and attribute of the component
 	 */
-	static attributes: Properties;
+	static observables: Observables;
 	/**
 	 * validate to `value`, and then deliver it to the` update({[name]:value})` method.
 	 */
@@ -41,13 +40,13 @@ This class is used by [@atomico/element](https://github.com/atomicojs/core) to u
 
 `base-element`, allows to create HTMLElements under other libraries, similar to what it does [Skatejs](https://github.com/skatejs/skatejs), but less code.
 
-## attributes
+## Observables
 
-the updates are dispatched to the `update` method, every time an ovserbable attribute mutates, these attributes are also defined as web-component properties.
+defines the observables as property and attribute of the component
 
 ```js
 class CustomElement extends Element {
-	static attributes = {
+	static Observables = {
 		fieldString: String, // [field-string]
 		fieldNumber: Number, // [field-number]
 		fieldBoolean: Boolean, // [field-boolean]

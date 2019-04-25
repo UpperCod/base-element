@@ -1,6 +1,6 @@
 type Values = Number | String | Object | Boolean | Array<any>;
 
-interface Attributes {
+interface Observables {
 	[index: string]: Values;
 }
 
@@ -23,9 +23,9 @@ declare module "@atomico/base-element" {
 		 */
 		unmounted: Promise<void>;
 		/**
-		 * defines the observable attributes and properties of the component
+		 * defines the observables as property and attribute of the component
 		 */
-		static attributes: Attributes;
+		static observables: Observables;
 		/**
 		 * validate to `value`, and then deliver it to the` update({[name]:value})` method.
 		 */
