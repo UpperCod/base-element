@@ -15,9 +15,6 @@ module.exports = function(config) {
 		},
 		rollupPreprocessor: {
 			plugins: [
-				require("rollup-plugin-node-resolve")({
-					extensions: [".js", ".ts"]
-				}),
 				require("rollup-plugin-sucrase")({
 					production: true,
 					exclude: ["node_modules/**"],

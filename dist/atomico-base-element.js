@@ -1,2 +1,94 @@
-function t(t){return JSON.parse(t)}export default class extends HTMLElement{constructor(){super(),this.props={},this.mounted=new Promise(t=>this.mount=t),this.unmounted=new Promise(t=>this.unmount=t)}connectedCallback(){this.mount()}disconnectedCallback(){this.unmount()}attributeChangedCallback(t,e,r){e!=r&&this.setProperty(t,r)}static get observedAttributes(){let t=this.observables||{},e=[],r=t=>{Object.defineProperty(this.prototype,t,{set(e){this.setProperty(t,e)},get(){return this.props[t]}})};for(let s in t){let t=s.replace(/([A-Z])/g,"-$1").toLowerCase();e.push(t),name in this.prototype||r(s)}return e}setProperty(e,r){e=e.replace(/-(\w)/g,(t,e)=>e.toUpperCase());let s,{observables:o}=this.constructor,a=o[e];try{if("string"==typeof r)switch(a){case Boolean:r=1==t(r||"true");break;case Number:r=Number(r);break;case Object:case Array:r=t(r)}}catch(t){s=!0}if(s||{}.toString.call(r)!=`[object ${a.name}]`)throw`the attribute [${e}] must be of the type [${a.name}]`;this.update({[e]:r})}update(t){}}
+/**
+ * Applies JSON.parse to extract the real value of an attribute from a string.
+ * @param {string} value
+ * @returns {(boolean|string|number|Object|Array)}
+ **/
+function parse(value) {
+	return JSON.parse(value);
+}
+
+class Element extends HTMLElement {
+	constructor() {
+		super();
+		/**@type {Object<string,any>} */
+		this.props = {};
+		/**@type {Promise} */
+		this.mounted = new Promise(resolve => (this.mount = resolve));
+		/**@type {Promise} */
+		this.unmounted = new Promise(resolve => (this.unmount = resolve));
+	}
+	connectedCallback() {
+		this.mount();
+	}
+	disconnectedCallback() {
+		this.unmount();
+	}
+	attributeChangedCallback(name, oldValue, value) {
+		if (oldValue == value) return;
+		this.setProperty(name, value);
+	}
+	static get observedAttributes() {
+		let observables = this.observables || {},
+			attributes = [],
+			/**
+			 * @param {string} - add the setter and getter to the constructor prototype
+			 */
+			proxy = name => {
+				Object.defineProperty(this.prototype, name, {
+					set(value) {
+						this.setProperty(name, value);
+					},
+					get() {
+						return this.props[name];
+					}
+				});
+			};
+		for (let key in observables) {
+			let attr = key.replace(/([A-Z])/g, "-$1").toLowerCase();
+			attributes.push(attr);
+			if (!(name in this.prototype)) proxy(key);
+		}
+		return attributes;
+	}
+	/**
+	 * validate to `value`, and then deliver it to the` update` method.
+	 * @param {name} name
+	 * @param {*} value
+	 */
+	setProperty(name, value) {
+		name = name.replace(/-(\w)/g, (all, letter) => letter.toUpperCase());
+		let { observables } = this.constructor,
+			error,
+			type = observables[name];
+		try {
+			if (typeof value == "string") {
+				switch (type) {
+					case Boolean:
+						value = parse(value || "true") == true;
+						break;
+					case Number:
+						value = Number(value);
+						break;
+					case Object:
+					case Array:
+						value = parse(value);
+						break;
+				}
+			}
+		} catch (e) {
+			error = true;
+		}
+		if (!error && {}.toString.call(value) == `[object ${type.name}]`) {
+			this.update({ [name]: value });
+		} else {
+			throw `the attribute [${name}] must be of the type [${type.name}]`;
+		}
+	}
+	/**
+	 * @param {Object<string,any>} props
+	 */
+	update(props) {}
+}
+
+export default Element;
 //# sourceMappingURL=atomico-base-element.js.map
