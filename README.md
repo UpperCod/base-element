@@ -25,7 +25,7 @@ class BaseElement extends HTMLElement {
 	/**
 	 * validate to `value`, and then deliver it to the` update({[name]:value})` method.
 	 */
-	setPropertie(name: string, value: Values): void;
+	setProperty(name: string, value: Values): void;
 	/**
 	 * is dispatched every time `setProperty` is executed
 	 */
