@@ -15,10 +15,8 @@
 		"access": "public"
 	},
 	"scripts": {
-		"build": "rollup -c",
-		"dev": "rollup -c -w",
 		"test": "karma start --single-run --browsers ChromeHeadless karma.conf.js",
-		"prepare": "npm run build && npm run test"
+		"prepare": "npm run test"
 	},
 	"devDependencies": {
 		"karma": "^4.0.1",
