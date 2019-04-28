@@ -73,6 +73,9 @@ export default class Element extends HTMLElement {
 					case Array:
 						value = parse(value);
 						break;
+					case Function:
+						value = window[value];
+						break;
 				}
 			}
 		} catch (e) {
@@ -81,7 +84,7 @@ export default class Element extends HTMLElement {
 		if (!error && {}.toString.call(value) == `[object ${type.name}]`) {
 			this.update({ [name]: value });
 		} else {
-			throw `the attribute [${name}] must be of the type [${type.name}]`;
+			throw `the observable [${name}] must be of the type [${type.name}]`;
 		}
 	}
 	/**

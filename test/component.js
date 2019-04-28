@@ -6,7 +6,8 @@ class CustomElement extends Element {
 		fieldNumber: Number,
 		fieldBoolean: Boolean,
 		fieldObject: Object,
-		fieldArray: Array
+		fieldArray: Array,
+		fieldFunction: Function
 	};
 	update(props) {
 		this.props = { ...this.props, ...props };
@@ -70,6 +71,21 @@ describe("Element Lifecycle", () => {
 		await node.mounted;
 
 		expect(node.fieldArray).toEqual([true]);
+
+		done();
+	});
+	it("Test field type Function", async done => {
+		window.globalHandler = function() {
+			this.done();
+		};
+
+		let node = scope(
+			`<custom-element field-function='globalHandler'></custom-element>`
+		);
+
+		await node.mounted;
+
+		node.fieldFunction.call({ done });
 
 		done();
 	});
