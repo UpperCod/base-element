@@ -1,4 +1,4 @@
-import Element from "../src/index";
+import Element from "../module";
 
 class CustomElement extends Element {
 	static observables = {

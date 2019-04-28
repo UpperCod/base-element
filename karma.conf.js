@@ -6,12 +6,12 @@ module.exports = function(config) {
 		frameworks: ["jasmine"],
 		files: [
 			{
-				pattern: "test/**/*.js",
+				pattern: "test/**/*.test.js",
 				watched: true
 			}
 		],
 		preprocessors: {
-			"test/**/*.js": ["rollup"]
+			"test/**/*.test.js": ["rollup"]
 		},
 		rollupPreprocessor: {
 			plugins: [

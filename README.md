@@ -50,7 +50,8 @@ class CustomElement extends Element {
 		fieldNumber: Number, // [field-number]
 		fieldBoolean: Boolean, // [field-boolean]
 		fieldObject: Object, // [field-object]
-		fieldArray: Array // [field-array]
+		fieldArray: Array // [field-array],
+		fieldFunction:Function // [field-function]
 	};
 }
 ```

@@ -1,4 +1,4 @@
-type Values = Number | String | Object | Boolean | Array<any>;
+type Values = Number | String | Object | Boolean | Array<any> | Function;
 
 interface Observables {
 	[index: string]: Values;

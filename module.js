@@ -7,7 +7,7 @@ function parse(value) {
 	return JSON.parse(value);
 }
 
-class Element extends HTMLElement {
+export default class Element extends HTMLElement {
 	constructor() {
 		super();
 		/**@type {Object<string,any>} */
@@ -73,6 +73,9 @@ class Element extends HTMLElement {
 					case Array:
 						value = parse(value);
 						break;
+					case Function:
+						value = window[value];
+						break;
 				}
 			}
 		} catch (e) {
@@ -81,14 +84,7 @@ class Element extends HTMLElement {
 		if (!error && {}.toString.call(value) == `[object ${type.name}]`) {
 			this.update({ [name]: value });
 		} else {
-			throw `the attribute [${name}] must be of the type [${type.name}]`;
+			throw `the observable [${name}] must be of the type [${type.name}]`;
 		}
 	}
-	/**
-	 * @param {Object<string,any>} props
-	 */
-	update(props) {}
 }
-
-export default Element;
-//# sourceMappingURL=atomico-base-element.js.map
