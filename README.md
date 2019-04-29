@@ -11,23 +11,23 @@ class BaseElement extends HTMLElement {
 	 */
 	props: Properties;
 	/**
-	 * it is resolved once the component has been mounted the document
+	 * resolves once the component has been mounted to the document
 	 */
 	mounted: Promise<void>;
 	/**
-	 * It is solved once the component has been unmounted the document.
+	 * resolves once the component has been unmounted from the document.
 	 */
 	unmounted: Promise<void>;
 	/**
-	 * defines the observables as property and attribute of the component
+	 * defines the observables as properties and attributes of the component
 	 */
 	static observables: Observables;
 	/**
-	 * validate to `value`, and then deliver it to the` update({[name]:value})` method.
+	 * validates the `value` which is then delivered to the` update({[name]:value})` method.
 	 */
 	setProperty(name: string, value: Values): void;
 	/**
-	 * is dispatched every time `setProperty` is executed
+	 * dispatches every time `setProperty` is successfully executed
 	 */
 	update(props: Properties): void;
 }
