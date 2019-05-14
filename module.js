@@ -33,10 +33,15 @@ export default class Element extends HTMLElement {
 			/**
 			 * @param {string} - add the setter and getter to the constructor prototype
 			 */
-			proxy = name => {
+			proxy = (name, attr, type) => {
 				Object.defineProperty(this.prototype, name, {
 					set(value) {
-						this.setProperty(name, value);
+						// the attributes of the Boolean type will always be reflected in Element
+						if (type === Boolean) {
+							this[value ? "setAttribute" : "removeAttribute"](attr, "");
+						} else {
+							this.setProperty(name, value);
+						}
 					},
 					get() {
 						return this.props[name];
@@ -46,7 +51,7 @@ export default class Element extends HTMLElement {
 		for (let key in observables) {
 			let attr = key.replace(/([A-Z])/g, "-$1").toLowerCase();
 			attributes.push(attr);
-			if (!(name in this.prototype)) proxy(key);
+			if (!(name in this.prototype)) proxy(key, attr, observables[key]);
 		}
 		return attributes;
 	}

@@ -89,4 +89,18 @@ describe("Element Lifecycle", () => {
 
 		done();
 	});
+	it("Test reflex boolean:rue", () => {
+		let node = scope(`<custom-element></custom-element>`);
+
+		node.fieldBoolean = true;
+
+		expect(node.hasAttribute("field-boolean")).toBe(true);
+	});
+	it("Test reflex boolean:false", () => {
+		let node = scope(`<custom-element></custom-element>`);
+
+		node.fieldBoolean = false;
+
+		expect(node.hasAttribute("field-boolean")).toBe(false);
+	});
 });
