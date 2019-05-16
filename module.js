@@ -86,7 +86,10 @@ export default class Element extends HTMLElement {
 		} catch (e) {
 			error = true;
 		}
-		if (!error && {}.toString.call(value) == `[object ${type.name}]`) {
+		if (
+			(!error && {}.toString.call(value) == `[object ${type.name}]`) ||
+			value == null
+		) {
 			this.update({ [name]: value });
 		} else {
 			throw `the observable [${name}] must be of the type [${type.name}]`;
