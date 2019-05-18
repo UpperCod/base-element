@@ -1,6 +1,7 @@
 # @atomico/base-element
 
 [![npm](https://badgen.net/npm/v/@atomico/base-element)](http://npmjs.com/@atomico/base-element)
+[![gzip](https://badgen.net/bundlephobia/minzip/@atomico/base-element)](https://bundlephobia.com/result?p=@atomico/base-element)
 
 It provides a minimum utility interface for the creation of web-components.
 
