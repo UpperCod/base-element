@@ -1,7 +1,7 @@
 {
 	"name": "@atomico/base-element",
-	"version": "0.2.2",
-	"description": "",
+	"version": "0.2.3",
+	"description": "It provides a minimum utility interface for the creation of web-components.",
 	"main": "module.js",
 	"module": "module.js",
 	"source": "module.js",

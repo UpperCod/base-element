@@ -38,6 +38,8 @@ export default class Element extends HTMLElement {
 					set(value) {
 						// the attributes of the Boolean type will always be reflected in Element
 						if (type === Boolean) {
+							let state = this.hasAttribute(attr);
+							if ((value && state) || (!value && !state)) return;
 							this[value ? "setAttribute" : "removeAttribute"](attr, "");
 						} else {
 							this.setProperty(name, value);
@@ -90,7 +92,7 @@ export default class Element extends HTMLElement {
 			(!error && {}.toString.call(value) == `[object ${type.name}]`) ||
 			value == null
 		) {
-			this.update({ [name]: value });
+			if (this.props[name] !== value) this.update({ [name]: value });
 		} else {
 			throw `the observable [${name}] must be of the type [${type.name}]`;
 		}
