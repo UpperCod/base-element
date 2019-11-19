@@ -34,7 +34,7 @@ class BaseElement extends HTMLElement {
 }
 ```
 
-This class is used by [@atomico/element](https://github.com/atomicojs/core) to use [@atomico/core](https://github.com/atomicojs/element) as web-component.
+This class is used by [@atomico/element](https://github.com/atomicojs/element) to use [@atomico/core](https://github.com/atomicojs/core) as web-component.
 
 ## Objective
 
